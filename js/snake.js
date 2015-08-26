@@ -7,40 +7,43 @@
   SNAKE.DIM_Y = 60;
 
   var Snake = SNAKE.Snake = function () {
-    this.dir = "X";
+    this.dir = "39";
     this.seg = [];
+    this.alive = true;
+    this.seg.push(new Coord([30,10]));
+  };
 
-    for (var i = 5; i < 25; i++) {
-      this.seg.push(new Coord([5,i]))
-    }
+  var Player2 = SNAKE.Snake = function () {
+    this.dir = "37";
+    this.seg = [];
+    this.alive = true;
+    this.seg.push(new Coord([70,10]));
   };
 
   Snake.prototype.move = function () {
-    if (this.dir !== "X") {
-      var next = this.seg[this.seg.length - 1].plus(SNAKE.DIRS[this.dir]);
-      next = wrap(next);
-      this.seg.push(next);
-      this.seg.splice(0, 1);
+
+    var next = this.seg[this.seg.length - 1].plus(SNAKE.DIRS[this.dir]);
+    if (checkCollision(next)) {
+      alert('you fucking lost');
     }
+    this.seg.push(next);
   };
 
-  var wrap = function (coord) {
-    if (coord.pos[1] > SNAKE.DIM_X) { coord.pos[1] = 0 }
-    if (coord.pos[0] > SNAKE.DIM_Y) { coord.pos[0] = 0 }
-    if (coord.pos[1] < 0) { coord.pos[1] = SNAKE.DIM_X }
-    if (coord.pos[0] < 0) { coord.pos[0] = SNAKE.DIM_Y }
+  var checkCollision = function (coord) {
+    if (coord.pos[1] > SNAKE.DIM_X) { return true; }
+    if (coord.pos[0] > SNAKE.DIM_Y) { return true; }
+    if (coord.pos[1] < 0) { return true; }
+    if (coord.pos[0] < 0) { return true; }
 
-    return coord;
-  }
+    // check collisions with itself or other snakes
+
+    return false;
+  };
 
   Snake.prototype.turn = function (direction) {
-    if (this.seg.length > 1) {
-      if (SNAKE.DIRS[this.dir].isOpposite(SNAKE.DIRS[direction])) {
-        throw Error("You can't go backwards")
-      }
+    if (!SNAKE.DIRS[this.dir].isOpposite(SNAKE.DIRS[direction])) {
+      this.dir = direction;
     }
-
-    this.dir = direction;
   };
 
   var Coord = SNAKE.Coord = function (position) {
@@ -48,7 +51,7 @@
   };
 
   Coord.prototype.plus = function (other_coord) {
-    return new Coord([this.pos[0] + other_coord.pos[0], this.pos[1] + other_coord.pos[1]])
+    return new Coord([this.pos[0] + other_coord.pos[0], this.pos[1] + other_coord.pos[1]]);
   };
 
   Coord.prototype.equals = function (other) {
@@ -63,7 +66,7 @@
   var Board = SNAKE.Board = function () {
     this.snake = new Snake();
     this.apples = [];
-  }
+  };
 
   Board.prototype.render = function () {
     var rows = [];
@@ -80,7 +83,7 @@
       }
     }
 
-    return rows
+    return rows;
   };
 
   SNAKE.checkCoords = function (pos, coord_arr) {
@@ -88,15 +91,14 @@
     for (var i = 0; i < coord_arr.length; i++) {
       if (coord.equals(coord_arr[i])) { return true; }
     }
-    return false
-  }
+    return false;
+  };
 
   SNAKE.DIRS = {
     37 : new Coord([0,-1]),
     40 : new Coord([1,0]),
     38 : new Coord([-1,0]),
     39 : new Coord([0,1]),
-    X : new Coord([0,0])
-  }
+  };
 
 })();
