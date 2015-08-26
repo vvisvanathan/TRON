@@ -18,8 +18,7 @@
   Snake.prototype.move = function () {
     var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
     if (checkCollision(next, this.seg, this.board)) {
-      alert('you fucking lost');
-      return;
+      this.alive = false;
     } else {
       this.seg.push(next);
     }
@@ -50,10 +49,11 @@
   };
 
   Snake.prototype.inSeg = function (other) {
+    var flag = false;
     this.seg.forEach(function (coord) {
-      if (coord.equals(other)) { return true; }
-    }.bind(this));
-    return false;
+      if (coord.equals(other)) { flag = true; }
+    });
+    return flag;
   };
 
   Coord.prototype.plus = function (other_coord) {
@@ -71,7 +71,7 @@
 
   var Board = SNAKE.Board = function () {
     this.snake = new Snake(this, [30, 70], "37", SNAKE.DIRS1);
-    this.snake2 = new Snake(this, [30, 10], "68", SNAKE.DIRS2);
+    this.snake2 = new Snake(this, [32, 65], "87", SNAKE.DIRS2);
   };
 
   Board.prototype.render = function () {
@@ -97,13 +97,14 @@
     var seg2Last = this.snake2.seg[this.snake2.seg.length -1];
 
     if (seg1Last.equals(seg2Last)) {
-      // head-on collision, tie
+      this.snake.alive = false;
+      this.snake2.alive = false;
       return true;
     } else if (this.snake.inSeg(seg2Last)) {
-      // player 2 loses
+      this.snake2.alive = false;
       return true;
     } else if (this.snake2.inSeg(seg1Last)) {
-      // player 1 loses
+      this.snake.alive = false;
       return true;
     } else {
       return false;
