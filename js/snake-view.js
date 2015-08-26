@@ -11,18 +11,18 @@
 
     window.setInterval ((function () {
       this.render();
-      this.board.snake.move();
-      this.board.snake2.move();
+      this.board.player1.move();
+      this.board.player2.move();
     }).bind(this),
     100);
   };
 
   SnakeView.prototype.bindEvents = function () {
-    var snake = this.board.snake;
-    var snake2 = this.board.snake2;
+    var player1 = this.board.player1;
+    var player2 = this.board.player2;
     $(document).on("keydown", function (key) {
-      snake.turn(key.keyCode);
-      snake2.turn(key.keyCode);
+      player1.turn(key.keyCode);
+      player2.turn(key.keyCode);
     });
   };
 
@@ -44,14 +44,14 @@
   SnakeView.prototype.render = function () {
     var $rows = $(".row");
     $(".snake").removeClass("snake").addClass("empty");
-    this.board.snake.seg.forEach(function (coord) {
+    this.board.player1.seg.forEach(function (coord) {
       var x = coord.pos[0];
       var y = coord.pos[1];
 
       var $tile = $rows.eq(x).children().eq(y);
       $tile.removeClass("empty").addClass("bike1");
     });
-    this.board.snake2.seg.forEach(function (coord) {
+    this.board.player2.seg.forEach(function (coord) {
       var x = coord.pos[0];
       var y = coord.pos[1];
 

@@ -30,7 +30,9 @@
     if (coord.pos[1] < 0) { return true; }
     if (coord.pos[0] < 0) { return true; }
 
-    // check collisions with itself or other snakes
+
+
+    // check collisions with itself or other player1
     for (var i = 0; i < seg.length; i++) {
       if (board.checkCollisions()) { return true; }
     }
@@ -70,8 +72,8 @@
   };
 
   var Board = SNAKE.Board = function () {
-    this.snake = new Snake(this, [30, 70], "37", SNAKE.DIRS1);
-    this.snake2 = new Snake(this, [32, 65], "87", SNAKE.DIRS2);
+    this.player1 = new Snake(this, [30, 70], "37", SNAKE.DIRS1);
+    this.player2 = new Snake(this, [32, 65], "87", SNAKE.DIRS2);
   };
 
   Board.prototype.render = function () {
@@ -79,9 +81,9 @@
     for (var i = 0; i < SNAKE.DIM_X; i++) {
       var row = "";
       for (var j = 0; j < SNAKE.DIM_Y; j++) {
-        if (checkCoords([i,j], this.snake.seg)) {
+        if (checkCoords([i,j], this.player1.seg)) {
           row += "$";
-        } else if (checkCoords([i,j], this.snake2.seg)) {
+        } else if (checkCoords([i,j], this.player2.seg)) {
           row += "$";
         } else {
           row += ".";
@@ -93,18 +95,18 @@
   };
 
   Board.prototype.checkCollisions = function () {
-    var seg1Last = this.snake.seg[this.snake.seg.length - 1];
-    var seg2Last = this.snake2.seg[this.snake2.seg.length -1];
+    var seg1Last = this.player1.seg[this.player1.seg.length - 1];
+    var seg2Last = this.player2.seg[this.player2.seg.length -1];
 
     if (seg1Last.equals(seg2Last)) {
-      this.snake.alive = false;
-      this.snake2.alive = false;
+      this.player1.alive = false;
+      this.player2.alive = false;
       return true;
-    } else if (this.snake.inSeg(seg2Last)) {
-      this.snake2.alive = false;
+    } else if (this.player1.inSeg(seg2Last)) {
+      this.player2.alive = false;
       return true;
-    } else if (this.snake2.inSeg(seg1Last)) {
-      this.snake.alive = false;
+    } else if (this.player2.inSeg(seg1Last)) {
+      this.player1.alive = false;
       return true;
     } else {
       return false;
