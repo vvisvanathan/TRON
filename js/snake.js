@@ -20,12 +20,21 @@
   Snake.prototype.move = function () {
     if (!(this.alive && this.enemy.alive)) { return; }
 
-    var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
-    if (this.checkCollision(next)) {
+    if (this.checkCollision(this.pickDir())) {
       this.alive = false;
     } else {
       this.seg.push(next);
     }
+  };
+
+  Snake.prototype.pickDir = function () {
+    // if player is human:
+    var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
+
+    // if player is computer
+
+
+    return next;
   };
 
   Snake.prototype.checkCollision = function (coord) {
@@ -78,9 +87,18 @@
   };
 
   var Board = SNAKE.Board = function () {
+    this.assignPlayers();
+  };
+
+  Board.prototype.reset = function () {
+    this.player1.seg = [];
+    this.player2.seg = [];
+    this.assignPlayers();
+  };
+
+  Board.prototype.assignPlayers = function () {
     this.player1 = new Snake("Player 1", this, [30, 70], "37", SNAKE.DIRS1);
     this.player2 = new Snake("Player 2", this, [30, 30], "68", SNAKE.DIRS2);
-
     this.player1.enemy = this.player2;
     this.player2.enemy = this.player1;
   };

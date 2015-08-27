@@ -32,6 +32,10 @@
 
   };
 
+  SnakeView.prototype.resetBoard = function () {
+    
+  }
+
   SnakeView.prototype.setupBoard = function () {
     for (var i = 0; i < SNAKE.DIM_Y; i++) {
       var $row = $("<div>").addClass("row");
