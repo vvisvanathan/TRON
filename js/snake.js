@@ -6,13 +6,14 @@
   SNAKE.DIM_X = 100;
   SNAKE.DIM_Y = 60;
 
-  var Snake = SNAKE.Snake = function (board, coord, dir, keybinds) {
+  var Snake = SNAKE.Snake = function (player, board, coord, dir, keybinds) {
     this.dir = dir;
     this.seg = [];
     this.alive = true;
     this.seg.push(new Coord(coord));
     this.keybinds = keybinds;
     this.board = board;
+    this.player = player;
   };
 
   Snake.prototype.move = function () {
@@ -72,8 +73,8 @@
   };
 
   var Board = SNAKE.Board = function () {
-    this.player1 = new Snake(this, [30, 70], "37", SNAKE.DIRS1);
-    this.player2 = new Snake(this, [32, 65], "87", SNAKE.DIRS2);
+    this.player1 = new Snake("Player 1", this, [30, 70], "37", SNAKE.DIRS1);
+    this.player2 = new Snake("Player 2", this, [32, 65], "87", SNAKE.DIRS2);
   };
 
   Board.prototype.render = function () {

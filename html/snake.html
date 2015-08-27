@@ -3,14 +3,16 @@
 
   <head>
     <meta charset="utf-8">
-    <title>SSSSSSSSSSNAKE</title>
+    <title>TRON</title>
     <link rel="stylesheet" type="text/css" href="../css/snake-view.css">
+    <link href='http://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
   </head>
-  
+
   <body>
-    <h1>SNAKE</h1>
+    <h1>TRON</h1>
 
     <section class="game-box">
+      <h2 class="start">START GAME</h2>
     </section>
 
     <script src="../js/jquery-2.1.1.js"></script>
@@ -19,7 +21,8 @@
     <script src="../js/snake-view.js"></script>
 
     <script>
-      $(function () {
+      $('.start').on("click", function () {
+        $('.start').remove();
         new SNAKE.SnakeView(new SNAKE.Board(), $(".game-box"));
       })
     </script>
