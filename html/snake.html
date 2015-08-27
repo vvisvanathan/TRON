@@ -9,10 +9,17 @@
   </head>
 
   <body>
-    <h1>TRON</h1>
 
     <section class="game-box">
-      <h2 class="start">START GAME</h2>
+      <h1 class="start">WELCOME TO TRON</h1>
+      <h2 class="start" id="start">START GAME</h2>
+      <div class="result" id="tie">It's a tie. No one wins.</div>
+      <div class="result" id="player1wins">You Win!</div>
+      <div class="result" id="player2wins">You FUCKING LOST, filthy peasant.</div>
+      <div class="result" id="replay">PLAY AGAIN</div>
+
+      </div>
+
     </section>
 
     <script src="../js/jquery-2.1.1.js"></script>
@@ -21,9 +28,15 @@
     <script src="../js/snake-view.js"></script>
 
     <script>
-      $('.start').on("click", function () {
-        $('.start').remove();
-        new SNAKE.SnakeView(new SNAKE.Board(), $(".game-box"));
+      $('.result').hide();
+      $('#start').on("click", function () {
+        $('.start').hide();
+        var gameBoard = new SNAKE.Board();
+        var SnakeView = new SNAKE.SnakeView(gameBoard, $(".game-box"));
+      })
+      $('#replay').on('click', function () {
+        $('.result').hide();
+        gameBoard.reset();
       })
     </script>
 
