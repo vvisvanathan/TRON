@@ -11,9 +11,23 @@
 
     window.setInterval ((function () {
       this.render();
+<<<<<<< HEAD
+      this.board.player1.move();
+      this.board.player2.move();
+      if (this.checkWinner() === "No one") {
+        $('#tie').show();
+        $('#replay').show();
+      } else if (this.checkWinner() === "Player 2") {
+        $('#player2wins').show();
+        $('#replay').show();
+      } else if (this.checkWinner() === "Player 1") {
+        $('#player1wins').show();
+        $('#replay').show();
+=======
       if (this.board.player1.alive && this.board.player2.alive) {
         this.board.player1.move();
         this.board.player2.move();
+>>>>>>> master
       }
     }).bind(this),
     50);
@@ -28,8 +42,16 @@
     });
   };
 
-  SnakeView.prototype.checkIfOver = function (board, winner) {
-
+  SnakeView.prototype.checkWinner = function () {
+    if (!this.board.player1.alive && !this.board.player2.alive) {
+      return "No one";
+    } else if (!this.board.player1.alive) {
+      return "Player 2";
+    } else if (!this.board.player2.alive) {
+      return "Player 1";
+    } else {
+      return false;
+    }
   };
 
   SnakeView.prototype.resetBoard = function () {

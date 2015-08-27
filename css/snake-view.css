@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
   background: #132B33;
+  max-height: 1000px;
 }
 
 h1 {
@@ -14,14 +15,32 @@ h1 {
 h2 {
   font-size: 40px;
   font-family: 'Orbitron', sans-serif;
-  color: #45FDFC;
+  color: #FD7222;
   text-align: center;
   margin: 0 auto;
 }
 
-.start:hover {
-  cursor: pointer;
+.result {
+  font-size: 40px;
+  font-family: 'Orbitron', sans-serif;
+  color: #45FDFC;
+  background: #002933;
+  transform: translateY(50px) translateX(100px);
+  margin: 50px;
+  text-align: center;
+  position: absolute;
 }
+
+#start { margin-top: 200px; }
+
+#start:hover { cursor: pointer; }
+
+#replay {
+  position: absolute;
+  transform: translateY(120px) translateX(100px);
+}
+
+#replay:hover { cursor: pointer; }
 
 .game-box {
   display: block;
@@ -30,6 +49,7 @@ h2 {
   background: #002933;
   border: 10px solid #FFF;
   margin: 0 auto;
+  position: relative;
 }
 
 .tile {
@@ -47,9 +67,13 @@ h2 {
 
 .bike1 {
 <<<<<<< HEAD
+  background: #45FDFC;
+=======
+<<<<<<< HEAD
   background: #1FC4FA;
 =======
   background: blue;
+>>>>>>> master
 >>>>>>> master
 }
 
