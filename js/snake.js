@@ -6,37 +6,51 @@
   SNAKE.DIM_X = 100;
   SNAKE.DIM_Y = 60;
 
-  var Snake = SNAKE.Snake = function (player, board, coord, dir, keybinds) {
+  var Snake = SNAKE.Snake = function (name, board, coord, dir, keybinds) {
     this.dir = dir;
-    this.seg = [];
+    this.name = name;
     this.alive = true;
+    this.seg = [];
     this.seg.push(new Coord(coord));
     this.keybinds = keybinds;
     this.board = board;
-    this.player = player;
+    this.enemy = null;
   };
 
   Snake.prototype.move = function () {
-    var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
-    if (checkCollision(next, this.seg, this.board)) {
+    if (!(this.alive && this.enemy.alive)) { return; }
+
+    if (this.checkCollision(this.pickDir())) {
       this.alive = false;
     } else {
       this.seg.push(next);
     }
   };
 
-  var checkCollision = function (coord, seg, board) {
-    if (coord.pos[1] > SNAKE.DIM_X) { return true; }
-    if (coord.pos[0] > SNAKE.DIM_Y) { return true; }
-    if (coord.pos[1] < 0) { return true; }
-    if (coord.pos[0] < 0) { return true; }
+  Snake.prototype.pickDir = function () {
+    // if player is human:
+    var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
+
+    // if player is computer
 
 
+    return next;
+  };
 
-    // check collisions with itself or other player1
-    for (var i = 0; i < seg.length; i++) {
-      if (board.checkCollisions()) { return true; }
-    }
+  Snake.prototype.checkCollision = function (coord) {
+    if ( coord.pos[1] > SNAKE.DIM_X ||
+         coord.pos[0] > SNAKE.DIM_Y ||
+         coord.pos[1] < 0 ||
+         coord.pos[0] < 0
+       ) { return true; }
+
+     var enemyHead = this.enemy.seg[this.enemy.seg.length -1];
+     if (coord.equals(enemyHead)) {
+       this.enemy.alive = false;
+       return true;
+     } else if (this.enemy.segContains(coord)) {
+       return true;
+     }
 
     return false;
   };
@@ -51,7 +65,7 @@
     this.pos = position;
   };
 
-  Snake.prototype.inSeg = function (other) {
+  Snake.prototype.segContains = function (other) {
     var flag = false;
     this.seg.forEach(function (coord) {
       if (coord.equals(other)) { flag = true; }
@@ -73,8 +87,20 @@
   };
 
   var Board = SNAKE.Board = function () {
+    this.assignPlayers();
+  };
+
+  Board.prototype.reset = function () {
+    this.player1.seg = [];
+    this.player2.seg = [];
+    this.assignPlayers();
+  };
+
+  Board.prototype.assignPlayers = function () {
     this.player1 = new Snake("Player 1", this, [30, 70], "37", SNAKE.DIRS1);
-    this.player2 = new Snake("Player 2", this, [32, 65], "87", SNAKE.DIRS2);
+    this.player2 = new Snake("Player 2", this, [30, 30], "68", SNAKE.DIRS2);
+    this.player1.enemy = this.player2;
+    this.player2.enemy = this.player1;
   };
 
   Board.prototype.render = function () {
@@ -93,25 +119,6 @@
     }
 
     return rows;
-  };
-
-  Board.prototype.checkCollisions = function () {
-    var seg1Last = this.player1.seg[this.player1.seg.length - 1];
-    var seg2Last = this.player2.seg[this.player2.seg.length -1];
-
-    if (seg1Last.equals(seg2Last)) {
-      this.player1.alive = false;
-      this.player2.alive = false;
-      return true;
-    } else if (this.player1.inSeg(seg2Last)) {
-      this.player2.alive = false;
-      return true;
-    } else if (this.player2.inSeg(seg1Last)) {
-      this.player1.alive = false;
-      return true;
-    } else {
-      return false;
-    }
   };
 
   SNAKE.checkCoords = function (pos, coord_arr) {

@@ -11,6 +11,7 @@
 
     window.setInterval ((function () {
       this.render();
+<<<<<<< HEAD
       this.board.player1.move();
       this.board.player2.move();
       if (this.checkWinner() === "No one") {
@@ -22,9 +23,14 @@
       } else if (this.checkWinner() === "Player 1") {
         $('#player1wins').show();
         $('#replay').show();
+=======
+      if (this.board.player1.alive && this.board.player2.alive) {
+        this.board.player1.move();
+        this.board.player2.move();
+>>>>>>> master
       }
     }).bind(this),
-    100);
+    50);
   };
 
   SnakeView.prototype.bindEvents = function () {
@@ -47,6 +53,10 @@
       return false;
     }
   };
+
+  SnakeView.prototype.resetBoard = function () {
+    
+  }
 
   SnakeView.prototype.setupBoard = function () {
     for (var i = 0; i < SNAKE.DIM_Y; i++) {
