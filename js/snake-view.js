@@ -11,10 +11,12 @@
 
     window.setInterval ((function () {
       this.render();
-      this.board.player1.move();
-      this.board.player2.move();
+      if (this.board.player1.alive && this.board.player2.alive) {
+        this.board.player1.move();
+        this.board.player2.move();
+      }
     }).bind(this),
-    100);
+    50);
   };
 
   SnakeView.prototype.bindEvents = function () {

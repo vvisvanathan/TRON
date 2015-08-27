@@ -46,7 +46,11 @@ h2 {
 }
 
 .bike1 {
+<<<<<<< HEAD
   background: #1FC4FA;
+=======
+  background: blue;
+>>>>>>> master
 }
 
 .bike2 {
