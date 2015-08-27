@@ -19,7 +19,10 @@
   Snake.prototype.move = function () {
     if (!(this.alive && this.enemy.alive)) { return; }
 
+    this.dir = this.pickDir();
+
     var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
+    console.log(next.pos);
     if (this.checkCollision(next)) {
       this.alive = false;
     } else {
@@ -28,12 +31,46 @@
   };
 
   Snake.prototype.pickDir = function () {
+    if (this.name === "Computer") {
+      return this.computerPickMove();
+    } else {
+      return this.dir;
+    }
+  };
 
+  Snake.prototype.computerPickMove = function () {
+    var randMoveDie = Math.floor((Math.random() * 10) + 1);
+
+    var currentDir = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
+    if (!this.checkCollision(currentDir) && randMoveDie !== 5) {
+      return this.dir;
+    }
+
+    var newDir = this.dir;
+    shuffle([65, 68, 83, 87]).forEach(function (key) {
+      if (this.keybinds[this.dir].isOpposite(this.keybinds[key])) {
+        console.log('opposite');
+        return;
+      } else {
+        var next = this.seg[this.seg.length - 1].plus(this.keybinds[key]);
+        if (!this.checkCollision(next)) {
+          newDir = key.toString();
+        }
+      }
+    }.bind(this));
+
+    this.dir = newDir;
+    return this.dir;
+  };
+
+  Snake.prototype.makeToughChoices = function (pos) {
+    var right = [this.dir.pos[1], this.dir.pos[0]];
+    var left = [-this.dir.pos[1], -this.dir.pos[0]];
   };
 
   Snake.prototype.checkCollision = function (coord) {
-    if ( coord.pos[1] > SNAKE.DIM_X ||
-         coord.pos[0] > SNAKE.DIM_Y ||
+    if ( coord.pos[1] > SNAKE.DIM_X - 1 ||
+         coord.pos[0] > SNAKE.DIM_Y - 1 ||
          coord.pos[1] < 0 ||
          coord.pos[0] < 0
        ) { return true; }
@@ -41,6 +78,8 @@
      var enemyHead = this.enemy.seg[this.enemy.seg.length -1];
      if (coord.equals(enemyHead)) {
        this.enemy.alive = false;
+       return true;
+     } else if (this.segContains(coord)) {
        return true;
      } else if (this.enemy.segContains(coord)) {
        return true;
@@ -80,9 +119,13 @@
     return negative.equals(other);
   };
 
-  var Board = SNAKE.Board = function () {
+  var Board = SNAKE.Board = function (players) {
     this.player1 = new Snake("Player 1", this, [30, 70], "37", SNAKE.DIRS1);
-    this.player2 = new Snake("Player 2", this, [30, 30], "68", SNAKE.DIRS2);
+    if (players === 2) {
+      this.player2 = new Snake("Player 2", this, [30, 30], "68", SNAKE.DIRS2);
+    } else {
+      this.player2 = new Snake("Computer", this, [30, 30], "68", SNAKE.DIRS2);
+    }
     this.player1.enemy = this.player2;
     this.player2.enemy = this.player1;
   };
@@ -135,6 +178,19 @@
     83 : new Coord([1,0]),
     87 : new Coord([-1,0]),
     68 : new Coord([0,1])
+  };
+
+  var shuffle = function (array) {
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   };
 
 })();

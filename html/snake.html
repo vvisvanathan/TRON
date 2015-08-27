@@ -32,7 +32,7 @@
       var gameBoard;
       $('#start').on("click", function () {
         $('.start').hide();
-        gameBoard = new SNAKE.Board();
+        gameBoard = new SNAKE.Board(1);
         var SnakeView = new SNAKE.SnakeView(gameBoard, $(".game-box"));
       })
       $('#replay').on('click', function () {
