@@ -29,9 +29,10 @@
 
     <script>
       $('.result').hide();
+      var gameBoard;
       $('#start').on("click", function () {
         $('.start').hide();
-        var gameBoard = new SNAKE.Board();
+        gameBoard = new SNAKE.Board();
         var SnakeView = new SNAKE.SnakeView(gameBoard, $(".game-box"));
       })
       $('#replay').on('click', function () {

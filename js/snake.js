@@ -10,8 +10,7 @@
     this.dir = dir;
     this.name = name;
     this.alive = true;
-    this.seg = [];
-    this.seg.push(new Coord(coord));
+    this.seg = [new Coord(coord)];
     this.keybinds = keybinds;
     this.board = board;
     this.enemy = null;
@@ -29,6 +28,7 @@
   };
 
   Snake.prototype.pickDir = function () {
+
   };
 
   Snake.prototype.checkCollision = function (coord) {
@@ -81,20 +81,20 @@
   };
 
   var Board = SNAKE.Board = function () {
-    this.assignPlayers();
-  };
-
-  Board.prototype.reset = function () {
-    this.player1.seg = [];
-    this.player2.seg = [];
-    this.assignPlayers();
-  };
-
-  Board.prototype.assignPlayers = function () {
     this.player1 = new Snake("Player 1", this, [30, 70], "37", SNAKE.DIRS1);
     this.player2 = new Snake("Player 2", this, [30, 30], "68", SNAKE.DIRS2);
     this.player1.enemy = this.player2;
     this.player2.enemy = this.player1;
+  };
+
+  Board.prototype.reset = function () {
+    this.player1.dir = "37";
+    this.player1.alive = true;
+    this.player1.seg = [new Coord([30, 70])];
+
+    this.player2.dir = "68";
+    this.player2.alive = true;
+    this.player2.seg = [new Coord([30, 30])];
   };
 
   Board.prototype.render = function () {
