@@ -11,9 +11,10 @@
 
     window.setInterval ((function () {
       this.render();
-<<<<<<< HEAD
-      this.board.player1.move();
-      this.board.player2.move();
+      if (this.board.player1.alive && this.board.player2.alive) {
+        this.board.player1.move();
+        this.board.player2.move();
+      }
       if (this.checkWinner() === "No one") {
         $('#tie').show();
         $('#replay').show();
@@ -23,14 +24,8 @@
       } else if (this.checkWinner() === "Player 1") {
         $('#player1wins').show();
         $('#replay').show();
-=======
-      if (this.board.player1.alive && this.board.player2.alive) {
-        this.board.player1.move();
-        this.board.player2.move();
->>>>>>> master
       }
-    }).bind(this),
-    50);
+    }).bind(this), 50);
   };
 
   SnakeView.prototype.bindEvents = function () {
@@ -55,8 +50,8 @@
   };
 
   SnakeView.prototype.resetBoard = function () {
-    
-  }
+
+  };
 
   SnakeView.prototype.setupBoard = function () {
     for (var i = 0; i < SNAKE.DIM_Y; i++) {

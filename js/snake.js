@@ -20,7 +20,8 @@
   Snake.prototype.move = function () {
     if (!(this.alive && this.enemy.alive)) { return; }
 
-    if (this.checkCollision(this.pickDir())) {
+    var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
+    if (this.checkCollision(next)) {
       this.alive = false;
     } else {
       this.seg.push(next);
@@ -28,13 +29,6 @@
   };
 
   Snake.prototype.pickDir = function () {
-    // if player is human:
-    var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
-
-    // if player is computer
-
-
-    return next;
   };
 
   Snake.prototype.checkCollision = function (coord) {
