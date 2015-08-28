@@ -3,6 +3,7 @@
     window.TRON = {};
   }
   var Bike = TRON.Bike;
+  var Coord = TRON.Coord;
 
   var Board = TRON.Board = function (players) {
     this.player1 = new Bike("Player 1", this, [30, 70], "37", TRON.DIRS1);
