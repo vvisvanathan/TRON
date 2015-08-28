@@ -20,6 +20,37 @@ h2 {
   margin: 0 auto;
 }
 
+.start {
+  font-family: 'Orbitron', sans-serif;
+}
+
+#firstplayer {
+  position: absolute;
+  color: #45FDFC;
+  font-size: 30px;
+}
+
+#firstplayercontrols {
+  position: absolute;
+  transform: translateX(160px);
+  color: white;
+  font-size: 30px;
+}
+
+#secondplayer {
+  position: absolute;
+  transform: translateY(50px);
+  color: #FD7222;
+  font-size: 30px;
+}
+
+#secondplayercontrols {
+  position: absolute;
+  transform: translateX(160px) translateY(50px);
+  color: white;
+  font-size: 30px
+}
+
 .result {
   font-size: 40px;
   font-family: 'Orbitron', sans-serif;
@@ -31,18 +62,28 @@ h2 {
   position: absolute;
 }
 
-#start { margin-top: 200px; }
+#oneplayerstart { margin-top: 100px; }
 
-#start:hover { cursor: pointer; }
+.startgame:hover {
+  cursor: pointer;
+  color: white;
+}
 
 #replay {
   position: absolute;
   transform: translateY(120px) translateX(100px);
+  color: red;
+  border: 1px solid red;
+  padding: 5px;
 }
 
 #replay:hover {
   cursor: pointer;
   color: white;
+<<<<<<< HEAD
+=======
+  border: 1px solid white;
+>>>>>>> justin6
 }
 
 .game-box {
