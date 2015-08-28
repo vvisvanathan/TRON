@@ -1,9 +1,9 @@
 (function () {
-  if (typeof SNAKE === "undefined") {
-    window.SNAKE = {};
+  if (typeof TRON === "undefined") {
+    window.TRON = {};
   }
 
-  var SnakeView = SNAKE.SnakeView = function (board, $el) {
+  var TronView = TRON.TronView = function (board, $el) {
     this.board = board;
     this.$el = $el;
     this.setupBoard();
@@ -31,7 +31,7 @@
     }).bind(this), 50);
   };
 
-  SnakeView.prototype.bindEvents = function () {
+  TronView.prototype.bindEvents = function () {
     var player1 = this.board.player1;
     var player2 = this.board.player2;
     $(document).on("keydown", function (key) {
@@ -40,7 +40,7 @@
     });
   };
 
-  SnakeView.prototype.checkWinner = function () {
+  TronView.prototype.checkWinner = function () {
     if (!this.board.player1.alive && !this.board.player2.alive) {
       return "No one";
     } else if (!this.board.player1.alive) {
@@ -56,14 +56,10 @@
     }
   };
 
-  SnakeView.prototype.resetBoard = function () {
-
-  };
-
-  SnakeView.prototype.setupBoard = function () {
-    for (var i = 0; i < SNAKE.DIM_Y; i++) {
+  TronView.prototype.setupBoard = function () {
+    for (var i = 0; i < TRON.DIM_Y; i++) {
       var $row = $("<div>").addClass("row");
-      for (var j = 0; j < SNAKE.DIM_X; j++) {
+      for (var j = 0; j < TRON.DIM_X; j++) {
         var $tile = $("<div>").addClass("tile").addClass("empty");
         $row.append($tile);
       }
@@ -71,9 +67,8 @@
     }
   };
 
-  SnakeView.prototype.render = function () {
+  TronView.prototype.render = function () {
     var $rows = $(".row");
-    $(".snake").removeClass("snake").addClass("empty");
     this.board.player1.seg.forEach(function (coord) {
       var x = coord.pos[0];
       var y = coord.pos[1];

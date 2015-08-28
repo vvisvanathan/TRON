@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>TRON</title>
-    <link rel="stylesheet" type="text/css" href="../css/snake-view.css">
+    <link rel="stylesheet" type="text/css" href="./css/tron.css">
     <link href='http://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
   </head>
 
@@ -28,23 +28,25 @@
 
     </section>
 
-    <script src="../js/jquery-2.1.1.js"></script>
+    <script src="./js/jquery-2.1.1.js"></script>
     <!-- Whackjobs at GithubPages don't understand symlinks... -->
-    <script src="../js/snake.js"></script>
-    <script src="../js/snake-view.js"></script>
+    <script src="./js/util.js"></script>
+    <script src="./js/bike.js"></script>
+    <script src="./js/board.js"></script>
+    <script src="./js/view.js"></script>
 
     <script>
       $('.result').hide();
       var gameBoard;
       $('#oneplayerstart').on("click", function () {
         $('.start').hide();
-        gameBoard = new SNAKE.Board(1);
-        var SnakeView = new SNAKE.SnakeView(gameBoard, $(".game-box"));
+        gameBoard = new TRON.Board(1);
+        var TronView = new TRON.TronView(gameBoard, $(".game-box"));
       })
       $('#twoplayerstart').on("click", function () {
         $('.start').hide();
-        gameBoard = new SNAKE.Board(2);
-        var SnakeView = new SNAKE.SnakeView(gameBoard, $(".game-box"));
+        gameBoard = new TRON.Board(2);
+        var TronView = new TRON.TronView(gameBoard, $(".game-box"));
       })
       $('#replay').on('click', function () {
         $('.result').hide();
