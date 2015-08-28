@@ -21,6 +21,9 @@
       } else if (this.checkWinner() === "Player 2") {
         $('#player2wins').show();
         $('#replay').show();
+      } else if (this.checkWinner() === "Computer") {
+        $('#computerwins').show();
+        $('#replay').show();
       } else if (this.checkWinner() === "Player 1") {
         $('#player1wins').show();
         $('#replay').show();
@@ -41,7 +44,11 @@
     if (!this.board.player1.alive && !this.board.player2.alive) {
       return "No one";
     } else if (!this.board.player1.alive) {
-      return "Player 2";
+      if (this.board.player2.name === "Player 2") {
+        return "Player 2";
+      } else {
+        return "Computer";
+      }
     } else if (!this.board.player2.alive) {
       return "Player 1";
     } else {

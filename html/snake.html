@@ -12,10 +12,16 @@
 
     <section class="game-box">
       <h1 class="start">WELCOME TO TRON</h1>
-      <h2 class="start" id="start">START GAME</h2>
-      <div class="result" id="tie">It's a tie. No one wins.</div>
-      <div class="result" id="player1wins">You Win!</div>
-      <div class="result" id="player2wins">You FUCKING LOST, filthy peasant.</div>
+      <h2 class="start startgame" id="oneplayerstart">1 PLAYER</h2>
+      <h2 class="start startgame" id="twoplayerstart">2 PLAYER</h2>
+      <div class="start" id="firstplayer">Player 1:</div>
+      <div class="start" id="firstplayercontrols">Arrow Keys</div>
+      <div class="start" id="secondplayer">Player 2:</div>
+      <div class="start" id="secondplayercontrols">W, A, S, D</div>
+      <div class="result" id="tie">It's a tie!</div>
+      <div class="result" id="player1wins">Player 1 Wins!</div>
+      <div class="result" id="player2wins">Player 2 Wins!</div>
+      <div class="result" id="computerwins">Computer Wins!</div>
       <div class="result" id="replay">PLAY AGAIN</div>
 
       </div>
@@ -30,13 +36,19 @@
     <script>
       $('.result').hide();
       var gameBoard;
-      $('#start').on("click", function () {
+      $('#oneplayerstart').on("click", function () {
         $('.start').hide();
         gameBoard = new SNAKE.Board(1);
         var SnakeView = new SNAKE.SnakeView(gameBoard, $(".game-box"));
       })
+      $('#twoplayerstart').on("click", function () {
+        $('.start').hide();
+        gameBoard = new SNAKE.Board(2);
+        var SnakeView = new SNAKE.SnakeView(gameBoard, $(".game-box"));
+      })
       $('#replay').on('click', function () {
         $('.result').hide();
+        $('.tile').removeClass('bike1 bike2');
         gameBoard.reset();
       })
     </script>
