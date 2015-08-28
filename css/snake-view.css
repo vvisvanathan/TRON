@@ -40,7 +40,10 @@ h2 {
   transform: translateY(120px) translateX(100px);
 }
 
-#replay:hover { cursor: pointer; }
+#replay:hover {
+  cursor: pointer;
+  color: white;
+}
 
 .game-box {
   display: block;

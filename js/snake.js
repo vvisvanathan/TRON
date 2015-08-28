@@ -22,7 +22,6 @@
     this.dir = this.pickDir();
 
     var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
-    console.log(next.pos);
     if (this.checkCollision(next)) {
       this.alive = false;
     } else {
@@ -39,33 +38,44 @@
   };
 
   Snake.prototype.computerPickMove = function () {
-    var randMoveDie = Math.floor((Math.random() * 10) + 1);
+    var randMoveDie = Math.floor((Math.random() * 20) + 1);
 
     var currentDir = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
     if (!this.checkCollision(currentDir) && randMoveDie !== 5) {
       return this.dir;
     }
 
-    var newDir = this.dir;
-    shuffle([65, 68, 83, 87]).forEach(function (key) {
-      if (this.keybinds[this.dir].isOpposite(this.keybinds[key])) {
-        console.log('opposite');
-        return;
-      } else {
-        var next = this.seg[this.seg.length - 1].plus(this.keybinds[key]);
-        if (!this.checkCollision(next)) {
-          newDir = key.toString();
-        }
-      }
+    var newDir = this.makeToughChoices();
+    
+    var output = "83";
+    [65, 68, 83, 87].forEach(function (key) {
+      if (this.keybinds[key].equals(newDir)) { output = key.toString(); }
     }.bind(this));
 
     this.dir = newDir;
-    return this.dir;
+    return output;
   };
 
-  Snake.prototype.makeToughChoices = function (pos) {
-    var right = [this.dir.pos[1], this.dir.pos[0]];
-    var left = [-this.dir.pos[1], -this.dir.pos[0]];
+  Snake.prototype.makeToughChoices = function () {
+    var dir = this.keybinds[this.dir];
+    var left = new Coord([dir.pos[1], dir.pos[0]]);
+    var right = new Coord([-dir.pos[1], -dir.pos[0]]);
+    var leftCount = 0;
+    var rightCount = 0;
+
+    var leftCoord = this.seg[this.seg.length - 1].plus(left);
+    while (!this.checkCollision(leftCoord)) {
+      leftCount += 1;
+      leftCoord = leftCoord.plus(left);
+    }
+
+    var rightCoord = this.seg[this.seg.length - 1].plus(right);
+    while (!this.checkCollision(rightCoord)) {
+      rightCount += 1;
+      rightCoord = rightCoord.plus(right);
+    }
+
+    if (leftCount > rightCount) { return left; } else { return right; }
   };
 
   Snake.prototype.checkCollision = function (coord) {
@@ -178,19 +188,6 @@
     83 : new Coord([1,0]),
     87 : new Coord([-1,0]),
     68 : new Coord([0,1])
-  };
-
-  var shuffle = function (array) {
-    var currentIndex = array.length, temporaryValue, randomIndex ;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
   };
 
 })();
