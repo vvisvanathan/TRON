@@ -18,15 +18,19 @@
       if (this.checkWinner() === "No one") {
         $('#tie').show();
         $('#replay').show();
+        $('#reload').show();
       } else if (this.checkWinner() === "Player 2") {
         $('#player2wins').show();
         $('#replay').show();
+        $('#reload').show();
       } else if (this.checkWinner() === "Computer") {
         $('#computerwins').show();
         $('#replay').show();
+        $('#reload').show();
       } else if (this.checkWinner() === "Player 1") {
         $('#player1wins').show();
         $('#replay').show();
+        $('#reload').show();
       }
     }).bind(this), 50);
   };

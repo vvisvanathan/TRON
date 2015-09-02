@@ -20,8 +20,10 @@
     this.dir = this.pickDir();
 
     var next = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
-    if (this.checkCollision(next)) {
+    var flag = this.checkCollision(next);
+    if (flag > 0) {
       this.alive = false;
+      if (flag === 2) { this.enemy.alive = false; }
     } else {
       this.seg.push(next);
     }
@@ -39,41 +41,52 @@
     var randMoveDie = Math.floor((Math.random() * 20) + 1);
 
     var currentDir = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
-    if (!this.checkCollision(currentDir) && randMoveDie !== 5) {
+    if (this.checkCollision(currentDir) === 0 && randMoveDie !== 5) {
       return this.dir;
     }
 
     var newDir = this.makeToughChoices();
-
     var output = "83";
     [65, 68, 83, 87].forEach(function (key) {
       if (this.keybinds[key].equals(newDir)) { output = key.toString(); }
     }.bind(this));
-
     this.dir = newDir;
     return output;
   };
 
   Bike.prototype.makeToughChoices = function () {
     var dir = this.keybinds[this.dir];
+    var back = new Coord([-dir.pos[0], -dir.pos[1]]);
     var left = new Coord([dir.pos[1], dir.pos[0]]);
     var right = new Coord([-dir.pos[1], -dir.pos[0]]);
     var leftCount = 0;
+    var leftSweep = 0;
     var rightCount = 0;
+    var rightSweep = 0;
 
     var leftCoord = this.seg[this.seg.length - 1].plus(left);
-    while (!this.checkCollision(leftCoord)) {
+    while (this.checkCollision(leftCoord) === 0) {
       leftCount += 1;
       leftCoord = leftCoord.plus(left);
     }
+    leftCoord = leftCoord.plus(right);
+    while (this.checkCollision(leftCoord) === 0) {
+      leftSweep += 1;
+      leftCoord = leftCoord.plus(back);
+    }
 
     var rightCoord = this.seg[this.seg.length - 1].plus(right);
-    while (!this.checkCollision(rightCoord)) {
+    while (this.checkCollision(rightCoord) === 0) {
       rightCount += 1;
       rightCoord = rightCoord.plus(right);
     }
+    rightCoord = rightCoord.plus(left);
+    while (this.checkCollision(rightCoord) === 0) {
+      rightSweep += 1;
+      rightCoord = rightCoord.plus(back);
+    }
 
-    if (leftCount > rightCount) { return left; } else { return right; }
+    if (leftCount * leftSweep > rightCount * rightSweep) { return left; } else { return right; }
   };
 
   Bike.prototype.checkCollision = function (coord) {
@@ -81,19 +94,18 @@
          coord.pos[0] > TRON.DIM_Y - 1 ||
          coord.pos[1] < 0 ||
          coord.pos[0] < 0
-       ) { return true; }
+       ) { return 1; }
 
      var enemyHead = this.enemy.seg[this.enemy.seg.length -1];
      if (coord.equals(enemyHead)) {
-       this.enemy.alive = false;
-       return true;
+       return 2;
      } else if (this.segContains(coord)) {
-       return true;
+       return 1;
      } else if (this.enemy.segContains(coord)) {
-       return true;
+       return 1;
      }
 
-    return false;
+    return 0;
   };
 
   Bike.prototype.turn = function (direction) {

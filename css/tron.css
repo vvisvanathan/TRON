@@ -51,6 +51,14 @@ h2 {
   font-size: 30px
 }
 
+#instructions {
+  position: absolute;
+  transform: translateY(100px);
+  color: white;
+  font-size: 20px;
+  font-family: monospace;
+}
+
 .result {
   font-size: 40px;
   font-family: 'Orbitron', sans-serif;
@@ -78,6 +86,21 @@ h2 {
 }
 
 #replay:hover {
+  cursor: pointer;
+  color: white;
+  border: 1px solid white;
+}
+
+#reload {
+  position: absolute;
+  color: red;
+  border: 1px solid red;
+  padding: 5px;
+  font-size: 16px;
+  margin: 0;
+}
+
+#reload:hover {
   cursor: pointer;
   color: white;
   border: 1px solid white;

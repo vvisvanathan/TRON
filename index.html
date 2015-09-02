@@ -18,11 +18,19 @@
       <div class="start" id="firstplayercontrols">Arrow Keys</div>
       <div class="start" id="secondplayer">Player 2:</div>
       <div class="start" id="secondplayercontrols">W, A, S, D</div>
+      <div class="start" id="instructions">
+        Instructions: <br/>
+        Player 1 controls the <span style="color: #45FDFC;">blue</span> snake.
+        Player 2/Computer controls the <span style="color: #FD7222">orange</span> snake.
+        As you move around the map, you leave a wall behind you.
+        Try to manipulate your opponent into crashing into a wall while not crashing yourself!
+      </div>
       <div class="result" id="tie">It's a tie!</div>
       <div class="result" id="player1wins">Player 1 Wins!</div>
       <div class="result" id="player2wins">Player 2 Wins!</div>
       <div class="result" id="computerwins">Computer Wins!</div>
       <div class="result" id="replay">PLAY AGAIN</div>
+      <div class="result" id="reload">&#8592; Back to Main Menu</div>
 
       </div>
 
@@ -52,6 +60,9 @@
         $('.result').hide();
         $('.tile').removeClass('bike1 bike2');
         gameBoard.reset();
+      })
+      $('#reload').on('click', function () {
+        location.reload();
       })
     </script>
 
