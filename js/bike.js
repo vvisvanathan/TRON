@@ -41,7 +41,7 @@
     var randMoveDie = Math.floor((Math.random() * 20) + 1);
 
     var currentDir = this.seg[this.seg.length - 1].plus(this.keybinds[this.dir]);
-    if (this.checkCollision(currentDir) === 0 && randMoveDie !== 5) {
+    if (this.checkCollision(currentDir) === 0 && randMoveDie !== 10) {
       return this.dir;
     }
 
@@ -57,8 +57,8 @@
   Bike.prototype.makeToughChoices = function () {
     var dir = this.keybinds[this.dir];
     var back = new Coord([-dir.pos[0], -dir.pos[1]]);
-    var left = new Coord([dir.pos[1], dir.pos[0]]);
-    var right = new Coord([-dir.pos[1], -dir.pos[0]]);
+    var left = new Coord([-dir.pos[1], -dir.pos[0]]);
+    var right = new Coord([dir.pos[1], dir.pos[0]]);
     var leftCount = 0;
     var leftSweep = 0;
     var rightCount = 0;
@@ -66,27 +66,39 @@
 
     var leftCoord = this.seg[this.seg.length - 1].plus(left);
     while (this.checkCollision(leftCoord) === 0) {
-      leftCount += 1;
+      var leftBack = leftCoord.plus(back);
+      while (this.checkCollision(leftBack) === 0) {
+        leftSweep += 1;
+        leftBack = leftBack.plus(back);
+      }
+
+      var leftForw = leftCoord.plus(dir);
+      while (this.checkCollision(leftForw) === 0) {
+        leftSweep += 1;
+        leftForw = leftForw.plus(dir);
+      }
+
       leftCoord = leftCoord.plus(left);
-    }
-    leftCoord = leftCoord.plus(right);
-    while (this.checkCollision(leftCoord) === 0) {
-      leftSweep += 1;
-      leftCoord = leftCoord.plus(back);
     }
 
     var rightCoord = this.seg[this.seg.length - 1].plus(right);
     while (this.checkCollision(rightCoord) === 0) {
-      rightCount += 1;
+      var rightBack = rightCoord.plus(back);
+      while (this.checkCollision(rightBack) === 0) {
+        rightSweep += 1;
+        rightBack = rightBack.plus(back);
+      }
+
+      var rightForw = rightCoord.plus(back);
+      while (this.checkCollision(rightForw) === 0) {
+        rightSweep += 1;
+        rightForw = rightForw.plus(dir);
+      }
+
       rightCoord = rightCoord.plus(right);
     }
-    rightCoord = rightCoord.plus(left);
-    while (this.checkCollision(rightCoord) === 0) {
-      rightSweep += 1;
-      rightCoord = rightCoord.plus(back);
-    }
 
-    if (leftCount * leftSweep > rightCount * rightSweep) { return left; } else { return right; }
+    if (leftSweep > rightSweep) { return left; } else { return right; }
   };
 
   Bike.prototype.checkCollision = function (coord) {
